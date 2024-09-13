@@ -1,0 +1,15 @@
+# Tech Stack & Open Source Libraries
+- DFM
+- Compose
+- MVI
+- Coroutine + Flow for asynchronous
+  - StateFlow
+-WorkManager
+- JetPack
+  - Navigation
+  - Compose
+  - ViewModel
+  - Hilt
+- Retrofit2 + OkHttp3
+- Clean Architecture
+- Ksp
