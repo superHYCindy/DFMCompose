@@ -2,9 +2,9 @@
 - DFM
 - Compose
 - MVI
+- WorkManager
 - Coroutine + Flow for asynchronous
   - StateFlow
--WorkManager
 - JetPack
   - Navigation
   - Compose
