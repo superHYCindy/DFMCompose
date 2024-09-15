@@ -1,6 +1,7 @@
 # Tech Stack & Open Source Libraries
 - DFM
 - Compose
+- Paging3
 - MVI
 - WorkManager
 - Coroutine + Flow for asynchronous
