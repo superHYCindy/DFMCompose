@@ -1,5 +1,6 @@
 # Tech Stack & Open Source Libraries
 - DFM
+  - app : Android Entry Point
   - core
     - data : Repository
     - remote : Network 통신
