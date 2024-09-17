@@ -1,5 +1,10 @@
 # Tech Stack & Open Source Libraries
 - DFM
+  - core
+    - data : Repository
+    - remote : Network 통신
+  - feature
+    - list : api로 받아온 데이터 보여주기, 무한 스크롤 
 - Compose
 - MVI
   - Orbit
