@@ -11,7 +11,11 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/data" />
+            <option value="$PROJECT_DIR$/core/local" />
+            <option value="$PROJECT_DIR$/core/remote" />
             <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/list" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

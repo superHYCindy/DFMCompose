@@ -12,7 +12,6 @@ navigationFragmentKtx = "2.8.0"
 navigationUiKtx = "2.8.0"
 jetbrainsKotlinJvm = "1.9.0"
 coil = "2.7.0"
-nav_version = "2.8.0"
 ksp = "2.0.0-1.0.24"
 kotlinSerialization = "1.6.0"
 hilt = "2.51.1"
@@ -20,6 +19,7 @@ hilt_navigation="1.0.0"
 retrofit = "2.11.0"
 okhttp3 = "4.12.0"
 paging = "3.3.2"
+room = "2.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -53,6 +53,12 @@ kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serial
 #paging3
 paging-runtime = { group = "androidx.paging", name = "paging-common", version.ref = "paging" }
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
+
+#Room
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
