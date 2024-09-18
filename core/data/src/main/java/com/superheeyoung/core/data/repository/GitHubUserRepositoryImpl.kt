@@ -1,5 +1,6 @@
 package com.superheeyoung.core.data.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -18,29 +19,28 @@ class GitHubUserRepositoryImpl @Inject constructor(
     override fun getGitHubUsersPaging(q : String): Flow<PagingData<GitHubUserDto>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 15,
+                pageSize = 5,
             ),
             pagingSourceFactory = {
                 object : PagingSource<Int, GitHubUserDto>() {
                     override fun getRefreshKey(state: PagingState<Int, GitHubUserDto>): Int? {
-                        return state.anchorPosition?.let { anchorPosition->
-                            val anchorPage = state.closestPageToPosition(anchorPosition)
-                            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+                        return state.anchorPosition?.let { anchorPosition ->
+                            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
+                                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
                         }
                     }
 
                     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GitHubUserDto> {
                         return kotlin.runCatching {
-                            val currentPosition = params.key ?: 0
-                            val response = gitHubUserRemoteDataSourece.getUsers(q)
-                            val data = response
-                            gitHubUserLocalDataSource.insertUsers(data)
+                                val page = params.key ?: STARTING_PAGE_INDEX
+                                val response = gitHubUserRemoteDataSourece.getUsers(q,page,params.loadSize)
+                                gitHubUserLocalDataSource.insertUsers(response)
 
-                            LoadResult.Page(
-                                data = data,
-                                prevKey = null,
-                                nextKey = if(response.isEmpty()) null else currentPosition.plus(1)
-                            )
+                                LoadResult.Page(
+                                    data = response,
+                                    prevKey = if (page == STARTING_PAGE_INDEX) null else page.minus(1),
+                                    nextKey = if(response.isEmpty()) null else page.plus(1)
+                                )
                         }.getOrElse {
                             LoadResult.Error(it)
                         }
@@ -54,4 +54,10 @@ class GitHubUserRepositoryImpl @Inject constructor(
     override suspend fun getUser(id: Int): GitHubUserDto {
         TODO("Not yet implemented")
     }
+
+    companion object {
+        private const val STARTING_PAGE_INDEX = 1
+    }
 }
+
+

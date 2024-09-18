@@ -1,7 +1,9 @@
 package com.superheeyoung.core.remote.response
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GitHubUserResponse(
     @SerializedName("id")
     val id : Int,

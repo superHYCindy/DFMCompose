@@ -14,17 +14,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GitHubUserListViewModel @Inject constructor(
-    private val gitHubUserRepository: GitHubUserRepository
+    gitHubUserRepository: GitHubUserRepository
 ) : ViewModel() {
-    lateinit var model : GitHubUserModel
-    fun getUsers(q : String) {
-        gitHubUserRepository.getGitHubUsersPaging(q)
-            .map { pagingData ->
-                pagingData.map {
-                    model = it.toUiModel()
-                    Log.d("debug2323",model.toString())
-                }
+
+    val users = gitHubUserRepository.getGitHubUsersPaging("cindy")
+        .cachedIn(viewModelScope)
+        .map { pagingData ->
+            pagingData.map {
+                it.toUiModel()
             }
-            .cachedIn(viewModelScope)
-    }
+        }
 }

@@ -11,9 +11,9 @@ import javax.inject.Inject
 class GitHubUserRemoteDataSourceImpl @Inject constructor(
     private val gitHubApi: GitHubApi
 ) : GitHubUserRemoteDataSourece {
-    override suspend fun getUsers(q: String): List<GitHubUserDto> {
+    override suspend fun getUsers(q: String, page : Int, perPage : Int): List<GitHubUserDto> {
         return withContext(Dispatchers.IO) {
-            gitHubApi.getGitHubUser(q).items.map { it.toDto() }
+            gitHubApi.getGitHubUser(q,page,perPage).items.map { it.toDto() }
         }
     }
 

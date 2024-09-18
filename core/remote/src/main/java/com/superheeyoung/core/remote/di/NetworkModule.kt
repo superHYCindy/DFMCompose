@@ -10,7 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-val GITHUB_URL = "https://api.github.com"
+val GITHUB_URL = "https://api.github.com/"
 
 @Module
 @InstallIn(SingletonComponent::class)

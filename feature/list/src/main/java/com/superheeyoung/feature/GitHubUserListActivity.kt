@@ -2,15 +2,23 @@ package com.superheeyoung.feature
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.viewModels
+import androidx.activity.compose.setContent
+import com.superheeyoung.core.ui.AppTheme
+import com.superheeyoung.feature.compose.GitHubUsersScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class GitHubUserListActivity : ComponentActivity()  {
-    private val viewModel : GitHubUserListViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getUsers("cindy")
+        setContent {
+            AppTheme {
+                GitHubUsersScreen(
+                    onClick = {
+                        //TODO
+                    }
+                )
+            }
+        }
     }
 }

@@ -6,8 +6,10 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface GitHubApi {
-    @GET("/search/users")
-    fun getGitHubUser(
-        @Query("q") name: String
+    @GET("search/users")
+    suspend fun getGitHubUser(
+        @Query("q") name: String,
+        @Query("page") page: Int,
+        @Query("per_page") itemsPerPage: Int
     ): GitHubResponse<GitHubUserResponse>
 }
