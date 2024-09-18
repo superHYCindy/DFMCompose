@@ -2,14 +2,16 @@
 - DFM
   - app : Android Entry Point
   - core
-    - data : Repository
+    - data : Repository Class + Paging 
     - remote : Network 통신
+    - locale : RemoteMediator 역할
   - feature
-    - list : api로 받아온 데이터 보여주기, 무한 스크롤 
+    - list : api로 받아온 데이터 보여주기, 무한 스크롤
+    - detail : 
 - Compose
 - MVI
   - Orbit
-- WorkManager
+- WorkManager (Soon)
   - offline-first
 - Coroutine + Flow for asynchronous
   - StateFlow
