@@ -1,5 +1,8 @@
 package com.superheeyoung.dfmcompose
 
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class GitHubUserApp {
+@HiltAndroidApp
+class GitHubUserApp : Application() {
 }

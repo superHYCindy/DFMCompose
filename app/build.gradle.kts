@@ -43,15 +43,13 @@ android {
 dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:remote"))
+    implementation(project(":core:local"))
+    implementation(project(":core:ui"))
 
     implementation(project(":feature:list"))
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
