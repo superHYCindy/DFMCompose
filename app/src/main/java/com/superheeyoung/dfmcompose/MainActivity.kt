@@ -10,7 +10,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startActivity(Intent(this, GitHubUserListActivity::class.java))
+        startActivity(
+            Intent(this, GitHubUserListActivity::class.java))
         finish()
     }
 }

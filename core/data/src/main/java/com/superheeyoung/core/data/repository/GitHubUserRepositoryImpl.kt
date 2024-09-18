@@ -16,10 +16,10 @@ class GitHubUserRepositoryImpl @Inject constructor(
     private val gitHubUserRemoteDataSourece: GitHubUserRemoteDataSourece,
     private val gitHubUserLocalDataSource: GitHubUserLocalDataSource
 ) : GitHubUserRepository {
-    override fun getGitHubUsersPaging(q : String): Flow<PagingData<GitHubUserDto>> {
+    override fun getGitHubUsersPaging(q: String): Flow<PagingData<GitHubUserDto>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 5,
+                pageSize = 20,
             ),
             pagingSourceFactory = {
                 object : PagingSource<Int, GitHubUserDto>() {
@@ -32,15 +32,16 @@ class GitHubUserRepositoryImpl @Inject constructor(
 
                     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GitHubUserDto> {
                         return kotlin.runCatching {
-                                val page = params.key ?: STARTING_PAGE_INDEX
-                                val response = gitHubUserRemoteDataSourece.getUsers(q,page,params.loadSize)
-                                gitHubUserLocalDataSource.insertUsers(response)
+                            val page = params.key ?: STARTING_PAGE_INDEX
+                            val response =
+                                gitHubUserRemoteDataSourece.getUsers(q, page, params.loadSize)
+                            gitHubUserLocalDataSource.insertUsers(response)
 
-                                LoadResult.Page(
-                                    data = response,
-                                    prevKey = if (page == STARTING_PAGE_INDEX) null else page.minus(1),
-                                    nextKey = if(response.isEmpty()) null else page.plus(1)
-                                )
+                            LoadResult.Page(
+                                data = response,
+                                prevKey = if (page == STARTING_PAGE_INDEX) null else page.minus(1),
+                                nextKey = if (response.isEmpty()) null else page.plus(1)
+                            )
                         }.getOrElse {
                             LoadResult.Error(it)
                         }
@@ -51,13 +52,14 @@ class GitHubUserRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override suspend fun getUser(id: Int): GitHubUserDto {
-        TODO("Not yet implemented")
+    override suspend fun getUser(id: Int): Result<GitHubUserDto> {
+        return kotlin.runCatching {
+            gitHubUserLocalDataSource.getUser(id) ?: throw NoSuchElementException("User Not Found")
+        }
     }
 
     companion object {
         private const val STARTING_PAGE_INDEX = 1
     }
 }
-
 

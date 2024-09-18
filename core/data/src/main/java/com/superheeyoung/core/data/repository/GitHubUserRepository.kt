@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface GitHubUserRepository {
     fun getGitHubUsersPaging(q : String) : Flow<PagingData<GitHubUserDto>>
-    suspend fun getUser(id : Int) : GitHubUserDto
+    suspend fun getUser(id : Int) : Result<GitHubUserDto>
 }

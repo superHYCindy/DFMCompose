@@ -16,8 +16,4 @@ class GitHubUserRemoteDataSourceImpl @Inject constructor(
             gitHubApi.getGitHubUser(q,page,perPage).items.map { it.toDto() }
         }
     }
-
-    override suspend fun getUser(): GitHubUserDto {
-        TODO("Not yet implemented")
-    }
 }

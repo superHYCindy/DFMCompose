@@ -1,22 +1,19 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.android.ksp)
 }
 
 android {
-    namespace = "com.superheeyoung.dfmcompose"
+    namespace = "com.superheeyoung.feature.detail"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.superheeyoung.dfmcompose"
         minSdk = 28
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -35,31 +32,24 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
     buildFeatures {
         compose = true
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
-
 }
 
 dependencies {
-    implementation(project(":core:data"))
-    implementation(project(":core:remote"))
-    implementation(project(":core:local"))
     implementation(project(":core:ui"))
+    implementation(project(":core:data"))
 
-    implementation(project(":feature:list"))
-    implementation(project(":feature:detail"))
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    //hilt
-    implementation(libs.hilt)
-    ksp(libs.hilt.compiler)
 }
