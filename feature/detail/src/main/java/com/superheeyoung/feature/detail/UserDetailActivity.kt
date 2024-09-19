@@ -1,9 +1,14 @@
 package com.superheeyoung.feature.detail
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.superheeyoung.core.ui.AppTheme
 import com.superheeyoung.feature.detail.compose.UserDetailScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,9 +22,14 @@ class UserDetailActivity : ComponentActivity() {
         handleDeepLink()
         setContent {
             AppTheme {
-                UserDetailScreen(
-                    viewModel = viewModel
-                )
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = Color.Transparent
+                ) {
+                    UserDetailScreen(
+                        viewModel = viewModel
+                    )
+                }
             }
         }
     }

@@ -4,13 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.superheeyoung.core.data.repository.GitHubUserRepository
-import com.superheeyoung.feature.detail.model.UserDetailModel
+import com.superheeyoung.feature.detail.model.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -23,7 +19,7 @@ class UserDetailViewModel @Inject constructor(
     private val gitHubUserRepository: GitHubUserRepository,
 ) : ViewModel(), ContainerHost<UserDetailState, UserDetailSideEffect> {
     override val container: Container<UserDetailState, UserDetailSideEffect> = container(
-        initialState = UserDetailState(),
+        initialState = UserDetailState.Loading(true),
         buildSettings =
         {
             this.exceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -31,42 +27,52 @@ class UserDetailViewModel @Inject constructor(
             }
         }
     )
+    var userId = ""
     init {
+        userId = savedStateHandle.get<String>("id") ?: ""
         getUserDetail()
     }
-    private val userId: StateFlow<String> = savedStateHandle.getStateFlow("id", "")
+
 
     fun getUserDetail() = intent {
         viewModelScope.launch {
-            reduce { state.copy(loading = true) }
-            userId.map {
-                if (it.isBlank()) {
-                    reduce { state.copy(error = "ID Not Found") }
-                } else {
-                    getDetailUser(it.toInt())
-                }
+            viewModelScope.launch {
+                reduce { UserDetailState.Loading(isLoading = true)}
+                    if (userId.isBlank()) {
+                        reduce { UserDetailState.UserNotFound }
+                    } else {
+                        getDetailUser(userId.toInt())
+                    }
             }
         }
     }
 
     private fun getDetailUser(id: Int) = intent {
         gitHubUserRepository.getUser(id).fold(
-            onSuccess = {
-                reduce { state.copy(avatarUrl = it.avatarUrl, loading = false) }
+            onSuccess = { dto ->
+                val detailModel = dto.toUiModel()
+                reduce { UserDetailState.userDetail(avatarUrl = detailModel.avatarUrl) }
             },
             onFailure = {
-                reduce { state.copy(error = it.message) }
+                reduce { UserDetailState.UserNotFound }
             }
         )
     }
 }
 
-data class UserDetailState(
-    val avatarUrl: String = "",
-    val loading: Boolean = false,
-    val error: String? = null
-)
+sealed interface UserDetailState {
+    data class userDetail(
+        val avatarUrl: String
+    ) : UserDetailState
+
+    data class Loading(
+        val isLoading : Boolean
+    ) : UserDetailState
+
+    data object UserNotFound : UserDetailState
+}
 
 sealed interface UserDetailSideEffect {
     class ErrorMsg(val msg: String) : UserDetailSideEffect
 }
+
